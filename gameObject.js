@@ -1,5 +1,4 @@
 export default class tikTakToe {
-    //TODO: no poder insertar donde ya hay una ficha
     constructor(player1, player2) {
         this.player1 = player1;
         this.player2 = player2;
@@ -20,7 +19,14 @@ export default class tikTakToe {
         return this.turnOf;
     }
     newMove(coord) {
+        if (
+            this.board[coord[0]][coord[1]] === this.player1 ||
+            this.board[coord[0]][coord[1]] === this.player2
+        ) {
+            return { error: "this place allready exists" };
+        }
         this.board[coord[0]][coord[1]] = this.turnOf;
+
         if (this._checkWin().win === "any") {
             this.turnOf == this.player1
                 ? (this.turnOf = this.player2)
@@ -29,7 +35,7 @@ export default class tikTakToe {
         } else {
             this.winner = this.turnOf;
             this.gameRunning = false;
-            return { ...this._checkWin(), board: this.board }; /// dev mode
+            return { ...this._checkWin() };
         }
     }
 
